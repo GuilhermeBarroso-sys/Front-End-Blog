@@ -1,0 +1,14 @@
+.button {
+  border: 0;
+  border-radius: 0.25rem;
+  width:auto;
+  padding:5px;
+  background-color: var(--blue-light);
+  &:hover {
+    filter:brightness(1.2)
+  }
+  p {
+    color: white;
+    font-size:1rem;
+  }
+}
