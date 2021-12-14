@@ -1,5 +1,7 @@
-export function AdminExample() {
+import { Header } from "../../components/Header";
+
+export function Admin() {
   return (
-    <h1>Other page</h1>
+    <Header/>
   )
 }

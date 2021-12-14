@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "../../components/Button";
 import { Form } from "../../components/Form";
 import { Header } from "../../components/Header";
 import styles from './styles.module.scss'
 import securityImg from '../../assets/undraw_security_on_re_e491.svg';
+import { AuthContext } from "../../contexts/auth";
+
 export function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const {signIn,user} = useContext(AuthContext);
   function handleSubmit(event : React.FormEvent) {
     event.preventDefault();
-    alert(event);
+    signIn({email,password})
   }
   return(
     <>
+    {user && (
+    <div className={styles.hidden}>
+      {window.location.href = '/admin'}
+    </div>
+    )}
     <Header />
     <form>
       <Form>
