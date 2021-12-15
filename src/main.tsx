@@ -7,7 +7,7 @@ import {
 import ReactDOM from 'react-dom'
 import './styles/global.scss'
 import App from './App'
-import { Admin, AdminExample } from './pages/Admin'
+import { Admin } from './pages/Admin'
 import { Login } from './pages/Login';
 import { AuthProvider } from './contexts/auth'
 

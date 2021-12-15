@@ -43,7 +43,8 @@ export function AuthProvider(props : AuthProvider) {
   function signOut() {
     setUser(null);
     localStorage.removeItem('@dolphinBlog:token');
-    localStorage.getItem('@dolphinBlog:userId')    
+    localStorage.removeItem('@dolphinBlog:userId')
+    window.location.href = '/';
   }
   useEffect(() => {
     const token = localStorage.getItem('@dolphinBlog:token');
