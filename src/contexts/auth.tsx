@@ -14,6 +14,7 @@ type AuthContextData = {
   user: User|null;
   signOut: () => void;
   signIn: ({email,password}:ISignIn) => Promise<void>
+  isAuthenticated: () => void;
 }
 interface ISignIn {
   email: string;
@@ -46,6 +47,10 @@ export function AuthProvider(props : AuthProvider) {
     localStorage.removeItem('@dolphinBlog:userId')
     window.location.href = '/';
   }
+  function isAuthenticated() {
+    const token = localStorage.getItem('@dolphinBlog:token');
+    api.defaults.headers.common.authorization = `Bearer ${token}`;
+  }
   useEffect(() => {
     const token = localStorage.getItem('@dolphinBlog:token');
     const id = localStorage.getItem('@dolphinBlog:userId');
@@ -58,7 +63,7 @@ export function AuthProvider(props : AuthProvider) {
   },[])
 
   return (
-    <AuthContext.Provider value ={{user, signOut, signIn}}>
+    <AuthContext.Provider value ={{user, signOut, signIn, isAuthenticated}}>
       {props.children}
     </AuthContext.Provider>
   )
