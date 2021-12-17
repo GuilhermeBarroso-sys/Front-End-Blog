@@ -1,5 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { api } from "../services/api";
+import {Navigate} from 'react-router-dom';
 type User = {
   id:string;
   name:string;
@@ -10,16 +12,22 @@ type AuthResponse = {
   token: string;
   user: User;
 }
+interface signInResponse {
+  success: boolean,
+  text?: string,
+}
 type AuthContextData = {
   user: User|null;
-  signOut: () => void;
-  signIn: ({email,password}:ISignIn) => Promise<void>
+  signOut: () => Promise<signInResponse>;
+  signIn: ({email,password}:ISignIn) => Promise<signInResponse>
   isAuthenticated: () => void;
 }
 interface ISignIn {
   email: string;
   password: string;
 }
+
+
 export const AuthContext = createContext({} as AuthContextData);
 type AuthProvider = {
   children: ReactNode;
@@ -27,25 +35,30 @@ type AuthProvider = {
 
 export function AuthProvider(props : AuthProvider) {
   const [user, setUser] = useState<User|null>(null);
-  async function signIn({email,password}: ISignIn) : Promise<void> {
-    
-    const {data} = await api.post<AuthResponse>('login', {
-      email,
-      password
-    });
-    
-    const {token,user} = data;
-    localStorage.setItem('@dolphinBlog:token', token);
-    localStorage.setItem('@dolphinBlog:userId', user.id);
-    api.defaults.headers.common.authorization = `Bearer ${token}`;
-    setUser(user);
+  async function signIn({email,password}: ISignIn)  {
+    try {
+      const response = await api.post<AuthResponse>('login', {
+        email,
+        password
+      })
+      const {token,user} = response.data;
+      localStorage.setItem('@dolphinBlog:token', token);
+      localStorage.setItem('@dolphinBlog:userId', user.id);
+      api.defaults.headers.common.authorization = `Bearer ${token}`;
+      setUser(user);
+      return {success: true};
+    } catch(err) {
+      return {
+        success: false, 
+        text: err.response.data
+      }
+    }
   }
 
   function signOut() {
     setUser(null);
     localStorage.removeItem('@dolphinBlog:token');
-    localStorage.removeItem('@dolphinBlog:userId')
-    window.location.href = '/';
+    localStorage.removeItem('@dolphinBlog:userId');
   }
   function isAuthenticated() {
     const token = localStorage.getItem('@dolphinBlog:token');

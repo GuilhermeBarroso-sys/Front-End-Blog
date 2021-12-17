@@ -5,20 +5,25 @@ import { Header } from "../../components/Header";
 import styles from './styles.module.scss'
 import securityImg from '../../assets/undraw_security_on_re_e491.svg';
 import { AuthContext } from "../../contexts/auth";
+import Swal from "sweetalert2";
+import { Navigate, Redirect } from "react-router-dom/";
 
 export function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const {signIn,user} = useContext(AuthContext);
-  function handleSubmit(event : React.FormEvent) {
+  async function handleSubmit(event : React.FormEvent) {
     event.preventDefault();
-    signIn({email,password})
+    const {success,text} = await signIn({email,password});
+    if(!success) {
+      Swal.fire('Erro!', text, 'error');
+    }
   }
   return(
     <>
     {user && (
     <div className={styles.hidden}>
-      {window.location.href = '/admin'}
+      {<Navigate to='/admin'/>}
     </div>
     )}
     <Header />

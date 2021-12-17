@@ -1,16 +1,18 @@
 import styles from './styles.module.scss'
-import {Link} from 'react-router-dom'
+import {Link, Navigate} from 'react-router-dom'
 import {CgProfile} from 'react-icons/cg'
-import { FormEvent, useContext } from 'react'
+import { FormEvent, useContext, useState } from 'react'
 import { AuthContext } from '../../contexts/auth'
 export function Header() {
   const {user,signOut} = useContext(AuthContext);
+  const [logout, setLogout] = useState(false);
   function handleLogout(event : FormEvent) {
     signOut();
-
+    setLogout(true);
   }
   return(
     <header className={styles.header}>
+      {logout && <Navigate to ='/' />}
       <div className={styles.headerContainer}>
         <div className={styles.logo}>
           <p>NinjaPress</p>
