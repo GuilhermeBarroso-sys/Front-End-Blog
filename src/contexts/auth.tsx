@@ -18,9 +18,9 @@ interface signInResponse {
 }
 type AuthContextData = {
   user: User|null;
-  signOut: () => Promise<signInResponse>;
+  signOut: () => void;
   signIn: ({email,password}:ISignIn) => Promise<signInResponse>
-  isAuthenticated: () => void;
+  isAuthenticated: () =>  Boolean;
 }
 interface ISignIn {
   email: string;
@@ -62,7 +62,11 @@ export function AuthProvider(props : AuthProvider) {
   }
   function isAuthenticated() {
     const token = localStorage.getItem('@dolphinBlog:token');
+    if(!token) {
+      return false;
+    }
     api.defaults.headers.common.authorization = `Bearer ${token}`;
+    return true;
   }
   useEffect(() => {
     const token = localStorage.getItem('@dolphinBlog:token');

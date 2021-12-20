@@ -6,6 +6,8 @@ import styles from './styles.module.scss';
 import {BiShow, BiEditAlt, BiTrashAlt} from 'react-icons/bi'
 import Swal from 'sweetalert2'
 import 'sweetalert2/src/sweetalert2.scss'
+import { Navigate } from "react-router-dom";
+import { HandleContext } from "../../contexts/handle";
 
 type User = {
   id: string;
@@ -13,25 +15,37 @@ type User = {
   email: string;
   permission: string;
 }
-
+interface HandleDestroy {
+  id:string;
+  name:string;
+  type:string;
+  refreshCallback: () => void
+}
 export function Admin() {
   const [users, setListUsers] = useState<User[]>([])
+  const [auth, setAuth] = useState(true);
   const {isAuthenticated} = useContext(AuthContext);
+  const {destroy} = useContext(HandleContext)
+  function handleDestroy({id,name,type,refreshCallback}: HandleDestroy) {
+    destroy({id,name,type,refreshCallback});
+  }
   function listAll() {
     api.get<User>(`listAll`).then(({data})  => {
       // @ts-ignore
       setListUsers(data);
     })
   }
-  function handleDestroy(id : string) {
-
-  }
   useEffect(() => {
-    isAuthenticated();
+    const authenticated = isAuthenticated();
+    if(!authenticated) {
+      setAuth(false);
+      return;
+    }
     listAll();
   },[])
   return (
     <>
+    {!auth && <Navigate to="/login" />}
     <Header/>
     <br/>
     <br/>
@@ -61,30 +75,11 @@ export function Admin() {
                 </div>
                 <div className={styles.destroy}>
                 <BiTrashAlt color="#F5F5F5" onClick={() => {
-                  Swal.fire({
-                    title: 'Tem certeza?',
-                    text: `Ao confirmar, o Usuário ${data.name} Será removido.`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#787A91',
-                    focusConfirm: false,
-                    cancelButtonText: 'Voltar',
-                    confirmButtonText: 'Deletar'
-                  }).then(({isConfirmed}) => {
-                    if (isConfirmed) {
-                      api.delete(`destroy/${data.id}`).then((test) => {
-                        Swal.fire(
-                          'Deletado!',
-                          `O Usuário ${data.name} foi deletado.`,
-                          'success'
-                        )
-                        listAll();
-                      });
-                      
-                    }
-                  })
-                }}/>
+                  const {id,name} = data;
+                  const type = 'Úsuario'
+                  const refreshCallback = () => {listAll()} 
+                  handleDestroy({id,name, type, refreshCallback })
+                }}/>  
                 </div>
                 
               </div>

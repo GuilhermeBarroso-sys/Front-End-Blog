@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 import securityImg from '../../assets/undraw_security_on_re_e491.svg';
 import { AuthContext } from "../../contexts/auth";
 import Swal from "sweetalert2";
-import { Navigate, Redirect } from "react-router-dom/";
+import { Navigate } from "react-router-dom/";
 
 export function Login() {
   const [email, setEmail] = useState('')
