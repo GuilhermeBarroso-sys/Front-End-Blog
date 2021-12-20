@@ -18,12 +18,21 @@
     justify-content: flex-start;
     .logo {
       flex:1;
-      p {
+      p{
         color:whitesmoke;
         font-size:1.5rem;
+        cursor:pointer;
         font-weight: bold;
+         a {
+          text-decoration: none;
+          color:whitesmoke;
+          font-size:1.5rem;
+          cursor:pointer;
+          font-weight: bold;
+          } 
       }
     }
+   
     .home {
       flex:5;
       p {
@@ -35,6 +44,13 @@
         &:hover {
           filter:brightness(0.8);
         }
+         a {
+          text-decoration: none;
+          color:whitesmoke;
+          font-size:1.5rem;
+          cursor:pointer;
+          font-weight: bold;
+          } 
       }
     }
     nav {

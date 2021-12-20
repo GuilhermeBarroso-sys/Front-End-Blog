@@ -15,10 +15,10 @@ export function Header() {
       {logout && <Navigate to ='/' />}
       <div className={styles.headerContainer}>
         <div className={styles.logo}>
-          <p>NinjaPress</p>
+          <p><Link to ='/' >NinjaPress</Link></p>
         </div>
         <div className={styles.home}>
-          <p>Home</p>
+          <p><Link to ='/' >Home</Link></p>
         </div>
         <nav>
           <ul>

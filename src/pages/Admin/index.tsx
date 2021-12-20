@@ -39,7 +39,6 @@ export function Admin() {
     const authenticated = isAuthenticated();
     if(!authenticated) {
       setAuth(false);
-      return;
     }
     listAll();
   },[])
@@ -78,7 +77,7 @@ export function Admin() {
                   const {id,name} = data;
                   const type = 'Úsuario'
                   const refreshCallback = () => {listAll()} 
-                  handleDestroy({id,name, type, refreshCallback })
+                  handleDestroy({id,name, type,  refreshCallback})
                 }}/>  
                 </div>
                 
