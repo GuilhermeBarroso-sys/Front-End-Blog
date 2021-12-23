@@ -4,7 +4,6 @@ import { api } from "../services/api";
 interface HandleDestroy {
   id:string;
   name:string;
-  type:string;
   refreshCallback: () => void
 }
 type HandleContextData = {
@@ -15,10 +14,10 @@ type AuthProvider = {
   children: ReactNode
 }
 export function HandleFunctions(props : AuthProvider ) {
-  function destroy({id, name, type, refreshCallback} : HandleDestroy) {
+  function destroy({id, name, refreshCallback} : HandleDestroy) {
     Swal.fire({
       title: 'Tem certeza?',
-      text: `Ao confirmar, o ${type} ${name} Será removido.`,
+      text: `Ao confirmar, ${name} Será removido.`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
@@ -31,7 +30,7 @@ export function HandleFunctions(props : AuthProvider ) {
         api.delete(`destroy/${id}`).then(() => {
           Swal.fire(
             'Deletado!',
-            `O ${type} ${name} foi deletado.`,
+            `${name} foi deletado.`,
             'success'
           )
           refreshCallback();

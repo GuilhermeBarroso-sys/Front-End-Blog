@@ -1,6 +1,5 @@
 import styles from './styles.module.scss'
 import {Link, Navigate} from 'react-router-dom'
-import {CgProfile} from 'react-icons/cg'
 import { FormEvent, useContext, useState } from 'react'
 import { AuthContext } from '../../contexts/auth'
 export function Header() {
@@ -24,7 +23,8 @@ export function Header() {
           <ul>
             <li> <Link to = "/about"> Sobre nós </Link></li>
             <li> <Link to = "/services"> Serviços </Link></li>
-            <li> {user ? <a onClick={handleLogout}>Sair</a>:<Link to = "/login"> Login </Link>}</li>
+            <li> {user ? <Link to = "/admin"> Admin </Link>:<Link to = "/login"> Login </Link>}</li>
+            <li> {user && <a onClick={handleLogout}>Sair</a>}</li>
           </ul>
           
         </nav>
