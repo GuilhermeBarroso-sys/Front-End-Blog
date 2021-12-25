@@ -22,8 +22,12 @@ type User = {
   email: string;
 }
 interface HandleDestroy {
-  id:string;
-  name:string;
+  route:string;
+  refreshCallback: () => void
+}
+interface HandleUpdate {
+  route: string;
+  data: object;
   refreshCallback: () => void
 }
 export function Admin() {
@@ -44,16 +48,18 @@ export function Admin() {
       listAll()
     },[])
     const [users, setListUsers] = useState<User[]>([])
-    const [editUser, setEditUser] = useState<User>();
-    const {destroy} = useContext(HandleContext)
-    function handleDestroy({id,name,refreshCallback}: HandleDestroy) {
-      destroy({id,name,refreshCallback});
+    const [id, setId] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const {update, destroy} = useContext(HandleContext)
+    function handleDestroy({route,refreshCallback}: HandleDestroy) {
+      destroy({route,refreshCallback});
     }
-    function refreshCallback() {
-      listAll();
+    function handleUpdate({route,data,refreshCallback}: HandleUpdate) {
+      update({route,data,refreshCallback});
     }
     function listAll() {
-      api.get<User>(`listAll`).then(({data})  => {
+      api.get<User>(`users`).then(({data})  => {
         // @ts-ignore
         setListUsers(data);
       })
@@ -79,13 +85,28 @@ export function Admin() {
           borderRadius: '3px',
           backgroundColor: 'white'
         }}>
-          <div className={styles.modalContainer}><h2>Editar Usuario {editUser?.name} </h2>  
+          <div className={styles.modalContainer}><h2>Editar Usuario </h2>  
             <form>
-              <Input defaultValue={editUser?.name} style={{width:'50%'}} className={styles.input}/>
+              <Input onChange={(event) => {
+                setName(event.target.value);
+              }} defaultValue={name} style={{width:'50%'}} className={styles.input}/>
               <br />
-              <Input defaultValue={editUser?.email} style={{width:'50%'}} className={styles.input}/>
+              <Input onChange={(event) => {
+                setEmail(event.target.value);
+              }} defaultValue={email} style={{width:'50%'}} className={styles.input}/>
               <br />
-              <Button variant="contained" style={{marginBottom:'10px'}}className = {styles.sendButton}>Enviar</Button>
+              <Button onClick = {(event) => {
+                const route = `users/${id}`
+                const data = {
+                  name,
+                  email
+                }
+                const refreshCallback = () => {
+                  handleCloseModal();
+                  listAll();
+                }
+                handleUpdate({route,data,refreshCallback}); 
+              }} variant="contained" style={{marginBottom:'10px'}}className = {styles.sendButton}>Enviar</Button>
 
             </form>
           </div>
@@ -114,14 +135,20 @@ export function Admin() {
                   <TableCell >{email}</TableCell>
                   <TableCell align="right">
                     <IconButton aria-label="delete" size="large" onClick={() => {
-                      setEditUser({id,name,email})
+                      setId(id);
+                      setName(name);
+                      setEmail(email);
                       handleOpenModal()
                     
                     }}>
                       <Edit  color="warning"/>
                     </IconButton>
                     <IconButton aria-label="delete" size="large" onClick={() => {
-                      handleDestroy({id,name, refreshCallback})
+                      const route = `users/${id}`;
+                      const refreshCallback = () => {
+                        listAll();
+                      }
+                      handleDestroy({route,refreshCallback});
                     }}>
                       <Delete  color="error"/>
                     </IconButton>

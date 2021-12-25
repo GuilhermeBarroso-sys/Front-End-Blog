@@ -73,7 +73,7 @@ export function AuthProvider(props : AuthProvider) {
     const id = localStorage.getItem('@dolphinBlog:userId');
     if(token && id) {
       api.defaults.headers.common.authorization = `Bearer ${token}`;
-      api.get<User>(`/listOne/${id}`).then(({data}) => {
+      api.get<User>(`users/${id}`).then(({data}) => {
         setUser(data);
       })
     }
