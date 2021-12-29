@@ -1,3 +1,4 @@
+import { responsiveFontSizes } from "@mui/material";
 import {createContext, ReactNode} from "react";
 import Swal from "sweetalert2";
 import { api } from "../services/api";
@@ -8,10 +9,13 @@ interface HandleDestroy {
 interface HandleUpdate {
   route: string;
   data: object;
-  refreshCallback: () => void
+}
+interface UpdateResponse {
+  success: boolean,
+  status: number
 }
 type HandleContextData = {
-  update: ({route, data, refreshCallback} : HandleUpdate) => void;
+  update: ({route, data} : HandleUpdate) => Promise<UpdateResponse>;
   destroy: ({route, refreshCallback} : HandleDestroy )  => void;
 }
 export const HandleContext = createContext({} as HandleContextData)
@@ -44,16 +48,21 @@ export function HandleFunctions(props : AuthProvider ) {
       }
     })
   }
-  function update({route, data, refreshCallback} : HandleUpdate) {
-    api.put(route, data)
-    .then(() => {
-      Swal.fire(
-        'Atualizado!',
-        `Sucesso.`,
-        'success'
-      )
-      refreshCallback()
-    })
+  async function update({route, data} : HandleUpdate) : Promise<UpdateResponse> {
+     return api.put(route, data)
+     .then(() => {
+       return {
+         success:true,
+         status: 200
+       }
+     })
+     .catch(() => {
+       return {
+         success: false,
+         status: 409
+       }
+     })
+  
   }
   return (
     <HandleContext.Provider value={{update, destroy}}>

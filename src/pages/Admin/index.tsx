@@ -15,6 +15,7 @@ import { api } from '../../services/api';
 import { HandleContext } from '../../contexts/handle';
 import { Box, Button, IconButton, Input, Modal, Typography } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
+import Swal from "sweetalert2";
 
 type User = {
   id: string;
@@ -28,7 +29,6 @@ interface HandleDestroy {
 interface HandleUpdate {
   route: string;
   data: object;
-  refreshCallback: () => void
 }
 export function Admin() {
   const {isAuthenticated} = useContext(AuthContext);
@@ -55,8 +55,25 @@ export function Admin() {
     function handleDestroy({route,refreshCallback}: HandleDestroy) {
       destroy({route,refreshCallback});
     }
-    function handleUpdate({route,data,refreshCallback}: HandleUpdate) {
-      update({route,data,refreshCallback});
+    async function handleUpdate({route,data}: HandleUpdate) {
+      const {success,status} = await update({route,data});
+      if(status == 409) {
+        handleCloseModal()
+        listAll();
+        Swal.fire(
+          'Email existente!',
+          '',
+          'error'
+        )
+        return;
+      }
+      handleCloseModal()
+      listAll();
+      Swal.fire(
+        'Sucesso!',
+        '',
+        'success'
+      )
     }
     function listAll() {
       api.get<User>(`users`).then(({data})  => {
@@ -101,11 +118,7 @@ export function Admin() {
                   name,
                   email
                 }
-                const refreshCallback = () => {
-                  handleCloseModal();
-                  listAll();
-                }
-                handleUpdate({route,data,refreshCallback}); 
+                handleUpdate({route,data}); 
               }} variant="contained" style={{marginBottom:'10px'}}className = {styles.sendButton}>Enviar</Button>
 
             </form>
