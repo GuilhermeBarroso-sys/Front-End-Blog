@@ -6,7 +6,19 @@
   background-color:rgb(255, 255, 255);
   margin:0 auto;
   display:flex;
+  flex-direction: column;
   padding-top:10px;
+  .add {
+    width:90%;
+    margin:0 auto;
+    .button {
+      cursor:pointer;
+      color:var(--blue-light);
+      &:hover {
+        color:var(--blue)
+      }
+    }
+  }
   .modal {
     width:100%;
     background-color: green;

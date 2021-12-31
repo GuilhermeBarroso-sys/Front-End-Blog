@@ -10,12 +10,21 @@ interface HandleUpdate {
   route: string;
   data: object;
 }
+interface HandleCreate {
+  route: string;
+  data: object;
+}
 interface UpdateResponse {
   success: boolean,
   status: number
 }
+interface CreateResponse {
+  success: boolean,
+  status: number|string
+}
 type HandleContextData = {
   update: ({route, data} : HandleUpdate) => Promise<UpdateResponse>;
+  create: ({route, data} : HandleUpdate) => Promise<CreateResponse>;
   destroy: ({route, refreshCallback} : HandleDestroy )  => void;
 }
 export const HandleContext = createContext({} as HandleContextData)
@@ -64,8 +73,24 @@ export function HandleFunctions(props : AuthProvider ) {
      })
   
   }
+  async function create({route, data} : HandleCreate) {
+    console.log(route,data);
+    return api.post(route, data)
+     .then(() => {
+       return {
+         success:true,
+         status: 200
+       }
+     })
+     .catch((err) => {
+       return {
+         success: false,
+         status: err.response.data
+       }
+     })
+  }
   return (
-    <HandleContext.Provider value={{update, destroy}}>
+    <HandleContext.Provider value={{update, destroy, create}}>
       {props.children}
     </HandleContext.Provider>
   )
