@@ -1,4 +1,3 @@
-import { responsiveFontSizes } from "@mui/material";
 import {createContext, ReactNode} from "react";
 import Swal from "sweetalert2";
 import { api } from "../services/api";

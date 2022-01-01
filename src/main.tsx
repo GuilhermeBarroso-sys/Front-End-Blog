@@ -11,6 +11,7 @@ import { Admin } from './pages/Admin'
 import { Login } from './pages/Login';
 import { AuthProvider } from './contexts/auth'
 import { HandleFunctions } from './contexts/handle'
+import { About } from './pages/About'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,8 +20,10 @@ ReactDOM.render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App/>} />
-            <Route path = "/login" element={<Login/>} /> {/* This routes is a example*/}
-            <Route path = "/admin" element={<Admin/>} /> {/* This routes is a example*/}
+            <Route path = "/about" element={<About/>} />
+            <Route path = "/login" element={<Login/>} /> 
+            <Route path = "/admin" element={<Admin/>} />
+
 
           </Routes>
         </BrowserRouter>

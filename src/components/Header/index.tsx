@@ -11,18 +11,14 @@ export function Header() {
   }
   return(
     <header className={styles.header}>
-      {logout && <Navigate to ='/' />}
+      {logout && <Navigate to ='/login' />}
       <div className={styles.headerContainer}>
         <div className={styles.logo}>
           <p><Link to ='/' >NinjaPress</Link></p>
         </div>
-        <div className={styles.home}>
-          <p><Link to ='/' >Home</Link></p>
-        </div>
         <nav>
           <ul>
             <li> <Link to = "/about"> Sobre nós </Link></li>
-            <li> <Link to = "/services"> Serviços </Link></li>
             <li> {user ? <Link to = "/admin"> Admin </Link>:<Link to = "/login"> Login </Link>}</li>
             <li> {user && <a onClick={handleLogout}>Sair</a>}</li>
           </ul>

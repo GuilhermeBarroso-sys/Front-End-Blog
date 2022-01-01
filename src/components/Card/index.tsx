@@ -15,15 +15,9 @@ export function Card({title,children}:reactProps) {
           <h1>{title}</h1>
         </div>
         <div className = {styles.body}>
-          <p>{children}</p> 
+          {children} 
         </div>
-        <div className = {styles.footer}>
-          <Button onClick={() => {
-            alert("hello world!");
-          }}>
-            Saiba mais
-          </Button>
-        </div>
+        
       </div>
     </div>
   )

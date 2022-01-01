@@ -53,8 +53,7 @@ export function Admin() {
     setIsOpen(false);
   }
   useEffect(() => {
-    const authenticated = isAuthenticated();
-    if(!authenticated) {
+    if(!isAuthenticated()) {
       setAuth(false);
     }
     listAll()
