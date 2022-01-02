@@ -27,10 +27,10 @@ A aplicação consiste em um Blog com painel administrativo, onde o conceito CRU
 # Primeiro inicie o backend do projeto que se encontra aqui: https://github.com/GuilhermeBarroso-sys/Back-end-Blog
 
 # clonar repositório
-git clone https://github.com/GuilhermeBarroso-sys/Ninja-Press-Blog.git
+git clone https://github.com/GuilhermeBarroso-sys/blog-front.git
 
 # entrar na pasta do projeto
-cd Ninja-Press-Blog
+cd blog-front
 
 # Iniciar o projeto
 yarn dev
