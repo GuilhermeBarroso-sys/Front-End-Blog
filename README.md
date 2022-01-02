@@ -26,12 +26,14 @@ A aplicação consiste em um Blog com painel administrativo, onde o conceito CRU
 ```bash
 # Primeiro inicie o backend do projeto que se encontra aqui: https://github.com/GuilhermeBarroso-sys/Back-end-Blog
 
-# clonar repositório
+# Clonar repositório
 git clone https://github.com/GuilhermeBarroso-sys/blog-front.git
 
-# entrar na pasta do projeto
+# Entrar na pasta do projeto
 cd blog-front
 
+# Baixar dependências
+yarn 
 # Iniciar o projeto
 yarn dev
 ```
