@@ -36,8 +36,8 @@ cd Ninja-Press-Blog
 yarn dev
 ```
 
-Para entrar no painel administrativo basta clicar em "entrar" no canto superior direito da home page e digitar "admin@gmail.com" no campo Email e  "admin" no campo senha sem as aspas.
-obs: O servidor (Back end) tem que estar ligado.
+Para entrar no painel administrativo basta clicar em "entrar" no canto superior direito da home page e digitar "admin@gmail.com" no campo Email e  "admin" no campo senha sem as aspas. <br><br>
+<strong>obs</strong>: O servidor (Back end) tem que estar ligado.
 
 # Autor
 
