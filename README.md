@@ -14,7 +14,6 @@ A aplicação consiste em um Blog com painel administrativo, onde o conceito CRU
 
 
 # Principais Tecnologias utilizadas
-## Front end
 - Vite.js ( Template React ts )
 - React
 - React Routes (react-router-dom)
