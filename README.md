@@ -1,7 +1,5 @@
 # Sobre o projeto
 
-Ninjapress é uma aplicação full stack web construida com o intuito de colocar em prática meus conhecimentos adquiridos através do curso Formação Node.js.
-
 A aplicação consiste em um Blog com painel administrativo, onde o conceito CRUD ( Create, Read, Update e Delete na lingua inglesa ) foi utilizado.
 ## Layout
 ### Home page
